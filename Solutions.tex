@@ -1,0 +1,242 @@
+\documentclass{report}
+\usepackage[utf8]{inputenc}
+ 
+\usepackage{graphicx} %package to manage images
+\usepackage[rightcaption]{sidecap}
+\usepackage{wrapfig}
+
+ 
+\usepackage{listings}
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+\begin{document}
+
+\chapter{A Tour of Computer Systems}
+
+\chapter{Representing and Manipulating Information}
+
+\section{Information Storage}
+\paragraph{Solution to Problem } 2.1 \\
+A: 0011 1001 1010 0111 1111 1000 \\
+B: 0xC97B  \\
+C: 1101 0101 1110 0100 1100  \\
+D: 0x26E7B5  \\
+
+\paragraph{Solution to  Problem } 2.2
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+n & \(2^n\)(decimal) & \(2^n\)(hexadecimal) \\
+\hline\hline
+9 & 512 & 0x200 \\
+\hline
+19 & 524288 & 0x80000 \\
+\hline
+14 & 16384 & 0x4000 \\
+\hline
+16 & 65536 & 0x10000 \\
+\hline
+17 & 131072 & 0x20000 \\
+\hline
+5 & 32 & 0x20  \\
+\hline
+7 & 128 & 0x80 \\
+\hline 
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.3
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+Decimal & Binary & Hexadecimal \\
+\hline\hline
+0 & 0000 0000 & 0x00 \\
+\hline
+167 & 1010 0111 & 0xA7 \\
+\hline
+62 &  0011 1110 & 0x3E \\
+\hline
+188 & 1011 1100 & 0xBC  \\
+\hline
+55 & 0011 0111 & 0x37  \\
+\hline
+136 & 1000 1000 & 0x88 \\
+\hline
+243 & 1111 0011 & 0xF3 \\
+\hline
+82 & 0101 0010 & 0x52 \\
+\hline
+172 & 1010 1100 & 0xAC \\
+\hline
+231 & 1110 0111 & 0xE7  \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.3 \\
+A: 0x5044  \\
+B: 0x4FFC  \\ 
+C: 0x507C  \\
+D: 0xAE  \\
+
+\paragraph{Code} 2-4
+
+\begin{lstlisting}
+
+#include <stdio.h>
+typedef unsigned char *byte_pointer;
+
+void show_bytes(byte_pointer start, size_t len) {
+	size_t i;
+	for (i = 0; i < len; i++)
+		printf("%.2x", start[i]);
+	printf("\n");
+}
+
+void show_int(int x) {
+	show_bytes((byte_pointer)&x, sizeof(int));
+}
+
+void show_float(float x) {
+	show_bytes((byte_pointer)&x, sizeof(float));
+}
+
+void show_pointer(void *x) {
+	show_bytes((byte_pointer)&x, sizeof(void *));
+}
+
+void test_show_bytes(int val) {
+	int ival = val;
+	float fval = (float)ival;
+	int *pval = &ival;
+	show_int(ival);
+	show_float(fval);
+	show_pointer(pval);
+}
+
+int main() {
+	test_show_bytes(12345);
+	return 0;
+}
+
+\end{lstlisting}
+\includegraphics[scale=0.4]{Solution/images/Code2_4.png}
+
+\paragraph{Solution to Problem} 2.5 \\
+A: Little endian:21 \hspace{10mm} Big endian:87 \\
+B: Little endian:21 43 \hspace{6mm} Big endian:87 65 \\
+C: Little endian:21 43 65 \hspace{1mm} Big endian 87 65 43
+
+\paragraph{Solution to Problem} 2.6  \\
+A: 0x00359141 : 00000000001 101011001000101000001 
+
+0x4A564504 : \hspace{1mm} 010010100 101011001000101000001 00 \\
+B: 21 \\
+C: We find all bits of the integer embedded in the floating-point number, except for the most significant bit aving value 1.
+
+\paragraph{Solution to Problem} 2.7 \\
+61 62 63 64 65 66(strlen does not count the terminating null character.
+
+\paragraph{Solution to Problem} 2.9 \\
+A: white(black) yello(bule) magenta(green) cyan(red) \\
+B: Cyan(011) Green(010) Blue(001)
+
+\paragraph{Solution to Problem} 2.10
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+Step & *x & *y \\
+\hline\hline
+Initially & a & b \\
+\hline
+Step 1 & a & a\textasciicircum b \\   
+\hline  
+Step 2 & b & a\textasciicircum b \\
+\hline
+Step 3 & b & a \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.11 \\
+A: Both first and last have value k. \\
+B: In this case, x and y point to the same location, and a\textasciicircum a = 0 \\
+C: In line 4, replace first $\leq$ last to  first $<$ last
+
+\paragraph{Solution to Problem} 2.12 \\
+A: x $\&$ 0xFF  \\
+B: x\textasciicircum {\textasciitilde 0xFF} \\
+C: x \textbar \hspace{1mm} 0xFF \\
+
+\paragraph{Solution to Problem} 2.13 \\
+\begin{lstlisting}
+int bis(int x, int m) {
+	return x | m;
+}
+
+int bic(int x, int m) {
+	return x & (!m);
+}
+
+int bool_or(int x, int y) {
+	int result = bis(x, y);
+	return result;
+}
+
+int bool_xor(int x, int y) {
+	int result = bis(bic(x, y), bic(y, x));
+	return result;
+}
+
+\end{lstlisting}
+
+\paragraph{Solution to Problem} 2.14 \\
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+logical operators & bit level operations   \\
+\hline\hline  
+$\&\&$ & $\&$  \\
+\hline  
+\textbar \textbar & \textbar  \\
+\hline
+$!$  & \textasciitilde  \\
+\hline
+& \textasciicircum \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.15 \\
+\begin{lstlisting}
+!(x ^ y)
+\end{lstlisting}
+
+\end{document}
