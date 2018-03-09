@@ -239,4 +239,110 @@ $!$  & \textasciitilde  \\
 !(x ^ y)
 \end{lstlisting}
 
+
+\paragraph{Solution to Problem} 2.16 \\
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c| }  
+\hline
+Hex & Binary & Binary & Hex & Binary & Hex & Binary & Hex  \\
+\hline\hline
+0xC3 & [11000011] &  [00011000] & 0x18 & [00110000] & 0x30 & [11110000] & 0xF0 \\
+\hline
+0x75 & [01110101] &  [10101000] & 0xA8 & [00011101] & 0x1D &[00011101] & 0x1D \\ 
+\hline
+0x87 & [10000111] &  [00111000] & 0x38 & [00100001] & 0x21 & [11100001] & 0xE1 \\
+\hline
+0x66 & [01100110] &  [00110000] & 0x30 & [00011001] & 0x19 & [00011001] & 0x19 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.17 \\
+
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+0xE & [1110] & 14 & -2 \\
+\hline
+0x0 & [0000] & 0 & 0 \\
+\hline
+0x5 & [0101] & 5 & 5 \\
+\hline
+0x8 & [1000] & 8 & 8 \\
+\hline
+0xD & [1101] & 13 & -3 \\
+\hline
+0xF & [1111] & 15 & -1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.19 \\
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+x & $T2U_4(x)$ \\
+\hline
+-8 & 8 \\
+-3 & 13 \\
+-2 & 14 \\
+-1 & 15 \\
+0 & 0 \\
+5 & 5 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.21 \\
+
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+Expression & Type & Evaluation \\
+\hline
+& Unsighed & 1 \\
+\hline
+& Signed & 1 \\
+\hline
+& Unsighed & 0 \\
+\hline
+& Sighed & 1 \\
+\hline
+& Unsigned & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.23 \\
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+w & fun1(w) & fun2(w) \\
+\hline
+& 0x00000076 & 0x00000076 \\
+\hline
+& 0x00000021 & 0x00000021 \\
+\hline
+& 0x000000C9 & 0xFFFFFFC9 \\
+\hline
+& 0x00000087 & 0xFFFFFF87 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.25 \\
+Since parameter length is unsigned, the computation 0 - 1 performed using unsigned arithmetic, so the result is then UMax.
+\begin{lstlisting}
+// line 6  
+for (i = 0; i < length; i++)
+\end{lstlisting}
+
+\paragraph{Solution to Problem} 2.26 \\
+A: The function will incorrectly return 1 when s is shorter than t.
+B: Since strlen is defined to yield an unsigned result, the difference and the comparison are both computed using unsigned arithmetic.
+C:
+\begin{lstlisting}
+return strlen(s) > strlen(t);
+\end{lstlisting}
+
 \end{document}
