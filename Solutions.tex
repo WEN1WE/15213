@@ -4,7 +4,7 @@
 \usepackage{graphicx} %package to manage images
 \usepackage[rightcaption]{sidecap}
 \usepackage{wrapfig}
-
+\usepackage{float}
  
 \usepackage{listings}
 \usepackage{color}
@@ -344,5 +344,122 @@ C:
 \begin{lstlisting}
 return strlen(s) > strlen(t);
 \end{lstlisting}
+
+\paragraph{Solution to Problem} 2.27 \\
+\begin{lstlisting}
+return  x + y > x
+\end{lstlisting}
+
+\paragraph{Solution to Problem} 2.28 \\
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+\multicolumn{2}{|c|}{x}  &   \multicolumn{2}{|c|}{$-^u_4$x}  \\  \hline
+Hex & Decimal & Decimal & Hex  \\   \hline 
+0 & 0 & 0 & 0 \\
+5 & 5 & 11& B  \\ 
+8 & 8 & 8 & 8 \\
+D & 13 & 3 & 3 \\
+F & 15 & 1 & 1 \\ \hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.30 \\
+
+
+\begin{lstlisting}
+int tadd_ok(int x, int y) {
+    int sum = x + y;
+    int neg_over = x < 0 && y < 0 && sum >= 0;
+    int pos_over = x >= 0 && y >= 0 && sum < 0;
+    return !neg_over && !pos_over;
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem} 2.31 \\
+The expression $(x+y)-x$ will evaluate to y regardless of whether or not the addition overflows.
+
+\paragraph{Solution to Problem} 2.32 \\
+When y is TMin, we will have -y also equal to TMin.
+
+
+\paragraph{Solution to Problem} 2.33 \\
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+\multicolumn{2}{|c|}{x}  &   \multicolumn{2}{|c|}{$-^t_4$x}  \\  \hline
+Hex & Decimal & Decimal & Hex  \\   \hline 
+0 & 0 & 0 & 0 \\
+5 & 5 & -5 & B  \\ 
+8 & -8 & -8 & 8 \\
+D & -3 & 3 & 3 \\
+F & -1 & 1 & 1 \\ \hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.35 \\
+1: x,y can be written as a 2w-bit two's-complement number.Let u denote the unsigned number represented by the lower w bits, and v denote the two's-complement number represented by the upper w bits. \\
+$x * y = v2^w + u$ \\
+$u = p + p_(w-1)2^w$ \\
+let $t = v + p_(w-1)$
+so $x * y = p + t2^w$ \\
+When $t = 0$, we have $x * y = p$; the multiplication does not overflow.When $t \neq 0$ ,we have $x * y \neq p$;the multiplication does overflow.
+
+
+
+\paragraph{Solution to Problem} 2.36 \\
+
+
+\begin{lstlisting}
+int tmult_ok(int x, int y) {
+    int64_t pll = (int64_t) x*y
+    
+    return pll == (int) pll;
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem} 2.38 \\
+We can compute multiples 1,2,3,4,5,8,9
+
+\paragraph{Solution to Problem} 2.39 \\
+The expression simply becomes $-(x\ll m)$
+
+\paragraph{Solution to Problem} 2.40 \\
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+K & shifts & Add/Subs & Expression \\ \hline
+6 & 2 & 1 & $(x \ll 2) + (x \ll 1)$ \\
+31 & 1 & 1 & $(x \ll 5) - x$  \\
+-6 & 2 & 1 & $(x \ll 1) - (x \ll 3)$  \\
+55 & 2 & 2 & $(x \ll 6) - (x \ll 3)$  \\ \hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem} 2.41 \\
+Assuming that addition and subtraction have the same performance, the rule is to choose form A when $n = m$, either form when $n = m + 1$, and form B, when $n > m + 1$
+
+\paragraph{Solution to Problem} 2.42 \\
+\begin{lstlisting}
+int div16(int x) {
+    int bias = (x >> 31) & 0xF;
+    return (x + bias) >> 4;
+}
+\end{lstlisting}
+
+
+\paragraph{Solution to Problem} 2.43 \\
+M is 31 and N is 8.
+
+\paragraph{Solution to Problem} 2.44 \\
+A: False. Let x be -2147483648($TMin_32$). \\
+B: True \\
+C: False. Let x be 65535. \\
+D: True \\
+E: False. Let x be $-2^{31}$
+F: True. Two's-complement and unsigned addition have the same bit-level behavior, and thet are commutative. \\
+G: True. \textasciitilde y = -y - 1
+
+\paragraph{Solution to Problem} 2.46 \\
 
 \end{document}
