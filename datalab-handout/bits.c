@@ -357,13 +357,14 @@ int ilog2(int x) {
 	int middle = (0xFF << 8) + 0xFF;  // the middle of int
 	int wight = 0;   
 	int neg_x = ~x + 1;
-	int diff_value, sign;
+	int diff_value, sign, mask;
 
 	// left 32bit
 	diff_value = middle + neg_x;
 	sign = (diff_value >> 31) & 1;
 	wight += sign << 4;
-	x = ((x >> 16) + x) & middle;
+	mask = ~(diff_value >> 31);
+	x = (x >> 16) + (x & mask);  // keep low 16 bits or not
 
 
 	// left 16bit
@@ -372,7 +373,8 @@ int ilog2(int x) {
 	diff_value = middle + neg_x;
 	sign = (diff_value >> 31) & 1;
 	wight += sign << 3;
-	x = ((x >> 8) + x) & middle;
+	mask = ~(diff_value >> 31);
+	x = (x >> 8) + (x & mask);
 
 
 
@@ -382,7 +384,8 @@ int ilog2(int x) {
 	diff_value = middle + neg_x;
 	sign = (diff_value >> 31) & 1;
 	wight += sign << 2;
-	x = ((x >> 4) + x) & middle;
+	mask = ~(diff_value >> 31);
+	x = (x >> 4) + (x & mask);
 
 
 	// left 4bit
@@ -391,7 +394,8 @@ int ilog2(int x) {
 	diff_value = middle + neg_x;
 	sign = (diff_value >> 31) & 1;
 	wight += sign << 1;
-	x = ((x >> 1) + x) & middle;
+	mask = ~(diff_value >> 31);
+	x = (x >> 2) + (x & mask);
 
 
 	// left 2bit
@@ -415,7 +419,19 @@ int ilog2(int x) {
  *   Rating: 2
  */
 unsigned float_neg(unsigned uf) {
- return 2;
+	int Tmin = 1 << 31;
+	int mask = ~(Tmin >> 8);
+
+	int exp = (uf >> 23) & 0xFF;
+	int frac = (uf & mask);
+	int neg_f = uf ^ Tmin;
+
+	if ((exp == 255) && (frac != 0)) {
+		return uf;
+	}
+	else {
+		return neg_f;
+	}
 }
 /* 
  * float_i2f - Return bit-level equivalent of expression (float) x
@@ -427,8 +443,50 @@ unsigned float_neg(unsigned uf) {
  *   Rating: 4
  */
 unsigned float_i2f(int x) {
-  return 2;
+	int E;
+	int temp;
+	int drop_bits;
+	unsigned frac = 0;
+	unsigned s = x & (1 << 31);
+
+	if (x < 0) {
+		x = -x;
+	}
+	else if (x == 0) {
+		return 0;
+	}
+	temp = x;
+
+	E = 158;
+	while (x > 0) {
+		E -= 1;
+		x = x << 1;	
+	}
+
+	x = temp;
+	drop_bits = E - 150;
+	if (drop_bits > 0) {
+		int carry = 1 << drop_bits;
+		int frac_last = (x >> drop_bits) & 1;
+		int drop = x & (carry - 1);
+		int middle = carry >> 1;
+
+		if ((drop > middle) || ((drop == middle) && (frac_last == 1))) {
+			x += carry;
+		}
+	}
+
+	E = 158;
+	while (x > 0) {
+		E -= 1;
+		x = x << 1;
+	}
+	frac = x << 1;
+	frac = frac >> 9;
+
+	return s + (E << 23) + frac;
 }
+
 /* 
  * float_twice - Return bit-level equivalent of expression 2*f for
  *   floating point argument f.
@@ -441,5 +499,18 @@ unsigned float_i2f(int x) {
  *   Rating: 4
  */
 unsigned float_twice(unsigned uf) {
-  return 2;
+	unsigned exp = (uf >> 23) & 0xFF;
+	unsigned frac = uf & 0x0007FFFF;
+	if (exp == 0xFF){
+		return uf;
+	}
+	else if (exp == 0) {
+		if (frac == 0) {
+			return uf;
+		}
+		else {
+			return (uf << 1) + (uf & 0x80000000);
+		}
+	}
+	return uf + (1 << 23);
 }
