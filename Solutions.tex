@@ -513,7 +513,90 @@ Bits & Value & Bits & Value  \\
 \end{center}
 
 
+\chapter{Machine-Level Representation of Programs}
+\paragraph{Solution to Problem } 3.1 \\
+\begin{center}
+\begin{tabular}{ |c|c| } 
+\hline
+Operand & Value \\
+\hline
+ & 0x100 \\
+ & 0xAB \\
+ & 0x108 \\
+ & 0xFF \\
+ & 0xAB \\
+ & 0x11 \\
+ & 0x13 \\
+ & 0xFF \\
+ & 0x11 \\
+\hline
+\end{tabular}
+\end{center}
 
+\paragraph{Solution to Problem } 3.2 \\
+\begin{lstlisting}
+movl  %eax, (%rsp)
+movw (%rax), %dx
+movb $0xFF, %bl
+movb (%rsp, %rdx, 4), %dl
+movq (%rdx), %rax
+movw %dx, (%rax)
+
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.3 \\
+
+\begin{lstlisting}
+movb $0xF, (%ebx)  Cannot use %ebx as address register
+movl %rax, (%rsp)  Mismatch between instruction suffix and register ID
+movw (%rax), 4(%rsp) Cannot have both source and destination be memory references
+movb %al, %sl No register named %sl
+movl %eax, %dx Destination operand incorrect size
+movb %si, 8(%rbp) Mismatch betwen instruction suffix and register ID
+
+\end{lstlisting}
+
+
+\paragraph{Solution to Problem } 3.4 \\
+\begin{lstlisting}
+movsbl (%rdi), %eax  
+movl %eax, (%rsi)
+
+movsbl (%rdi), %eax
+movl %eax, (%rsi)
+
+movzbl ($rdi), %eax
+movq %rax, (%rsi)
+
+movl (%rdi), %eax
+movb %al, (%rsi)
+
+movl (%rdi), %eax
+movb %al, (%rsi)
+
+movl(%rdi), %eax
+movb %al, (%rsi)
+
+movsbw (%rdi), %ax
+movw %ax, (%rsi)
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.5 \\
+\begin{lstlisting}
+void decode1(long *xp, long *yp, long *zp) {
+    long x = *xp;
+    long y = *yp;
+    long z = *zp;
+    *yp = x;
+    *zp = y;
+    *xp = z;
+    
+    return z;
+
+}
+
+
+\end{lstlisting}
 
 
 \end{document}
