@@ -309,6 +309,11 @@ int negate(int x) {
  *   Rating: 3
  */
 int isPositive(int x) {
+ 	return !((x >> 31) | (!x)); 
+}
+
+
+int isPositive_2(int x) {
 	int sign1, sign2;
 
 	sign1 = (x >> 31) & 1;
@@ -317,9 +322,7 @@ int isPositive(int x) {
 	return sign1 ^ sign2;
 }
 
-int isPositive_2(int x) {
- 	return !((x >> 31) | (!x)); 
-}
+
 /* 
  * isLessOrEqual - if x <= y  then return 1, else return 0 
  *   Example: isLessOrEqual(4,5) = 1.
@@ -327,7 +330,15 @@ int isPositive_2(int x) {
  *   Max ops: 24
  *   Rating: 3
  */
+
+// 8 ops
 int isLessOrEqual(int x, int y) {
+	return ((y + (((x ^ y) >> 31) | ~x) + 1) >> 31) + 1;
+}
+
+
+// 15 ops
+int isLessOrEqual_2(int x, int y) {
 	// four situations: + +, - +, + -, --
 	int sign_x, sign_y, situation_1, situation_2, situation_3, sub;
 	
@@ -346,6 +357,9 @@ int isLessOrEqual(int x, int y) {
 
 	return situation_1 & (situation_2 | situation_3);
 }
+
+
+
 /*
  * ilog2 - return floor(log base 2 of x), where x > 0
  *   Example: ilog2(16) = 4
