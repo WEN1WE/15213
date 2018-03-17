@@ -594,8 +594,76 @@ void decode1(long *xp, long *yp, long *zp) {
     return z;
 
 }
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.6 \\
+\begin{center}
+\begin{tabular}{ |c|c| } 
+\hline
+Instruction & Result \\
+ & 6 + x \\
+ & x + y \\
+ & x + 4y \\
+ & 9x + 7 \\
+ & 4y + 10 \\
+ & x + 2y + 9 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.7 \\
+\begin{lstlisting}
+long x = 5 * x + 2 * y + 8 * z;
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.8 \\
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+Instruction & Destination & Value \\
+ & 0x100 & 0x100 \\
+ & 0x108 & 0xA8 \\
+ & 0x118 & 0x110 \\
+ & 0x110 & 0x14 \\
+ & \%rcx & 0x0 \\
+ & \%rax & 0xFD \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.9 \\
+\begin{lstlisting}
+salq $4, %rax 
+
+sarq %cl, %rax 
+
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.10 \\
+\begin{lstlisting}
+long t1 = x | y;
+long t2 = t1 >> 3;
+long t3 = ~t2;
+long t4 = z-t3;
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.11 \\
+A. This instruction is used to set register \%rdx to zero. \\
+B. \$0, \%rdx \\
+C. We find that the version with xorq requires only 3 bytes,while the version with movq requires 7.Other way to set \%rdx to zero rely on the property that any instruction that updates the lower 4 bytes will cause the high-order bytes to be set zero.Thus. we could use either xorl \%edx, \%edx(2 bytes) or movl \$0, \%edx(5 bytes)
 
 
+\paragraph{Solution to Problem } 3.12 \\
+\begin{lstlisting}
+uremdiv:
+    movq    %rdx, %r8  
+    movq    %rdi, %rax
+    movl    $0, %edx
+    divq    %rsi
+    movq    %rax, (%r8)
+    movq    %rdx, (%rcx)
+    ret
+    
 \end{lstlisting}
 
 
