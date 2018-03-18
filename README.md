@@ -7,3 +7,4 @@
 - 2018/3/14  Finished watching four videos of chap 3
 - 2018/3/16  Finished 3.1-3.4
 - 2018/3/17  Finished 3.5
+- 2018/3/18  Finished 3.6
