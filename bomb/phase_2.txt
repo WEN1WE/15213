@@ -1,17 +1,17 @@
 
-*arg1 = (%rdi) = "1 2 3 4 5 6"(my input)
+*arg1 = (%rdi) = "1 2 4 8 16 32"(my input)
 (gdb) x/a  0x7fffffffdd30
 0x7fffffffdd30: 0x200000001
 (gdb) x/a 0x7fffffffdd34
 0x7fffffffdd34: 0x300000002
 (gdb) x/a 0x7fffffffdd38
-0x7fffffffdd38: 0x400000003
+0x7fffffffdd38: 0x400000004
 (gdb) x/a 0x7fffffffdd3c
-0x7fffffffdd3c: 0x500000004
+0x7fffffffdd3c: 0x500000008
 (gdb) x/a 0x7fffffffdd40
-0x7fffffffdd40: 0x600000005
+0x7fffffffdd40: 0x600000010
 (gdb) x/a 0x7fffffffdd44
-0x7fffffffdd44: 0x40143100000006
+0x7fffffffdd44: 0x40143100000020
 
 
 
@@ -27,10 +27,10 @@
   400f15:	eb 19                	jmp    400f30 <phase_2+0x34>
   400f17:	8b 43 fc             	mov    -0x4(%rbx),%eax // %rax = 1, %rax = 2
   400f1a:	01 c0                	add    %eax,%eax  // %rax = 2, %rax = 4
-  400f1c:	39 03                	cmp    %eax,(%rbx)  // (%rbx) = 0x300000002, 
+  400f1c:	39 03                	cmp    %eax,(%rbx)  // (%rbx) = 0x300000002,
   400f1e:	74 05                	je     400f25 <phase_2+0x29> 
   400f20:	e8 15 05 00 00       	callq  40143a <explode_bomb>
-  400f25:	48 83 c3 04          	add    $0x4,%rbx // %rbx = 0x7fffffffdd38  (%rbx) = 0x400000003
+  400f25:	48 83 c3 04          	add    $0x4,%rbx // %rbx = 0x7fffffffdd38  (%rbx) = 0x400000004
   400f29:	48 39 eb             	cmp    %rbp,%rbx // %rbp = 0x7fffffffdd48, not equal goto loop
   400f2c:	75 e9                	jne    400f17 <phase_2+0x1b>
   400f2e:	eb 0c                	jmp    400f3c <phase_2+0x40>
