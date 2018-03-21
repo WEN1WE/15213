@@ -811,7 +811,7 @@ long loop_while2(long a, long b) {
 }
 \end{lstlisting}
 
-\paragraph{Solution to Problem } 3.28 \\
+\paragraph{Solution to Problem } 3.26 \\
 A. We can see that the code uses the jump-to-middle translation, using the jmp instruction on line 3. \\
 B.
 \begin{lstlisting}
@@ -825,6 +825,339 @@ long fun_a(unsigned long x) {
 }
 \end{lstlisting}
 C.This code computes the parity of argument x. That is, it returns 1 if there is an odd number of ones in x and 0 if there is an even number.
+
+\paragraph{Solution to Problem } 3.27 \\
+\begin{lstlisting}
+long fact_for_gd_goto(long n) {
+    long i = 2;
+    long result = 1;
+    if (n <= 1) 
+        goto done;
+loop:
+    result *= i;
+    i++;
+    if (i <= n)
+        goto loop;
+done:
+    return result;
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.28 \\
+A. 
+\begin{lstlisting}
+long fun_b(unsigned long x) {
+    long val = 0;
+    long i;
+    
+    for (i = 64; i != 0; i--) {
+        val = (val << 1) | (x & 0x1);
+        x >>= 1;
+    }
+    return val;
+}
+\end{lstlisting}
+B. The code was generated using the guarded-do transformation. \\
+C. This code reverses the bits in x, creating a mirror image.
+
+\paragraph{Solution to Problem } 3.29 \\
+A. 
+\begin{lstlisting}
+long sum = 0;
+long i = 0;
+while (i < 10) {
+    if (i & 1) 
+        continue;
+    sum += 1;
+    i++;
+}
+\end{lstlisting}
+This code has an infinite loop. \\
+B.
+\begin{lstlisting}
+long sum = 0;
+long i = 0;
+while (i < 10) {
+    if (i & 1)
+        goto update;
+    sum += 1;
+    update:
+        i++;
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.30 \\
+A. The case labels in the switch statement body have values -1, 0, 1, 2, 4, 5, 7. \\
+B. The case with destination .L5 has labels 0 and 7. \\
+C. The case with destination .L7 has labels 2 and 4.
+
+\paragraph{Solution to Problem } 3.31 \\
+\begin{lstlisting}
+void switcher(long a, long b, long c, long *dest) {
+    long val;
+    switch(a) {
+    case 5:
+        c = b ^ 15;
+        /* Fall through */
+    case 0:
+        val = c + 112;
+        break;
+    case 2:
+    case 7:
+        val = (c + b) << 2;
+        break;
+    case 4:
+        val = a;
+        break;
+    default:
+        val = b;
+    }
+    *dest = val;
+}
+\end{lstlisting}
+
+
+\paragraph{Solution to Problem } 3.32 \\
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c|c| } 
+\hline
+Label & PC & Instruction & \%rdi & \%rsi & \%rax & \%rsp &*\%rsp & Description \\
+\hline
+M1 & 0x400560 & callq & 10 & - & - & 0x7fffffffe820 & - & call first \\
+F1 & 0x400548 & lea & 10 & - & - &  0x7fffffffe818 & 0x400565 & entry fisrt \\
+F2 & 0x40054c & sub & 10 & 11 & - & 0x7fffffffe818 & 0x400565 & \\
+F3 & 0x400550 & callq & 9 & 11 & - & 0x7fffffffe818 & 0x400565 & Call last \\
+L1 & 0x400540 & mov & 9 & 11 & - &  0x7fffffffe810 & 0x400555 & Entry of last \\
+L2 & 0x400543 & imul & 9 & 11 & 9 & 0x7fffffffe810 & 0x400555 & \\
+L3 & 0x400549 & retq & 9 & 11 & 99 & 0x7fffffffe810 & 0x400555 & Return 99 from last \\
+F4 & 0x400555 & repz repq & 9 & 11 & 99 & 0x7fffffffe818 & 0x400565 & Return 99 from first \\
+M2 & 0x400565 & mov & 9 & 11 & 99 & 0x7fffffffe820 & - & Return main \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.34\\
+A. \%rbx, \%r15, \%r14, \%r13, \%r12, and \%rbp.\\
+B. a6, a7.
+C. After storing six local variables, the program has used up the supply of callee-saved registers. It stores the remaining two local values on the stack.
+
+\paragraph{Solution to Problem } 3.35\\
+A. Register \%rbx holds the value of parameter x. \\
+B. 
+\begin{lstlisting}
+long rfun(unsigned long x) {
+    if (x == 0) 
+        return 0;
+    unsigned long nx = x >> 2;
+    long rv = rfun(nx);
+    return x + rv;
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.36\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|} 
+\hline
+Array & Element size & Total size & Start address & Element i \\ \hline
+S & 2 & 14 & $x_s$ & $x_s + 2i$ \\
+T & 8 & 24 & $x_T$ & $x_T + 8i$ \\
+U & 8 & 48 & $x_u$ & $x_u + 8i$ \\
+V & 4 & 32 & $x_v$ & $x_v + 4i$ \\
+W & 8 & 32 & $x_w$ & $x_w + 8i$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.37\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+Expression & Type & Value & Assembly \\ \hline
+S+1 & short * & $x_s + 2$ & leaq 2(\%rdx), \%rax \\
+S[3] & short & M[$x_s+6$] & movw 6(\%rdx), \%ax \\ 
+\&S[i] & short * & $x_s+2i$ & leaq (\%rdx, \%rcx, 2), \%rax \\
+S[4*i+1] & short *& M[$x_s+8i+2$] & movw 2(\%rdx, \%rcx, 8), \%ax \\
+S+i-5 & short * & $x_s+2i-10$ & leaq-10(\%rdx, \%rcx, 2), \%rax \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.38\\
+M = 5 \\
+N = 7
+
+\paragraph{Solution to Problem } 3.40\\
+\begin{lstlisting}
+void fix_set_diag_opt(fix_matrix A, int val) {
+    int *Abase = &A[0][0];
+    long i = 0;
+    long iend = N*(N+1);
+    do {
+        Abase[i] = val;
+        i += (N+1);
+    } while (i != iend);
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.41\\
+A. p:0, s.x:8, s.y:12, next:16 \\
+B. 24 bytes \\
+C. 
+\begin{lstlisting}
+void sp_init(struct prob *sp) {
+    sp->s.x = sp->s.y;
+    sp->p = &(sp->s.x);
+    sp->next = sp;
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.42\\ 
+A.
+\begin{lstlisting}
+long fun(struct ELE *ptr) {
+    long val = 0;
+    while (ptr) {
+        val += ptr->v;
+        ptr = ptr->p;
+    }
+    return val;
+}
+\end{lstlisting}
+B. We can see that each structure is an element of a singly link list, with field v being the value of the element and p being a pointer to the next element.Function fun computes the sum of the element values in the list.
+
+\paragraph{Solution to Problem } 3.43\\ 
+\begin{center}
+\begin{tabular}{ |c|c|c| } 
+\hline
+Expr & Type & Code \\
+up $\rightarrow$ t1.u & long & movq (\%rdi), \%rax \\
+& & movq \%rax, (\%rsi) \\ \hline
+up $\rightarrow$ t1.v & short & movw 8(\%rdi), \%ax \\
+& & movq \%rax, (\%rsi) \\ \hline 
+\&up $\rightarrow$ t1.w & char * & addq \$10, \%rdi \\
+& & movq \%rdi, (\%rsi) \\ \hline
+up $\rightarrow$ t2.a & int * & movq \%rdi, (\%rsi) \\ \hline
+up $\rightarrow$ t2.a[up $\rightarrow$ t1.u] & int & movq (\%rdi), \%rax \\
+& & movl (\%rdi, \%rax, 4), \%eax \\
+& & movl \%eax, (\%rsi) \\ \hline
+*up $\rightarrow$ t2.p & char & movq 8(\%rdi), \%rax \\
+& & movb (\%rax), \%al \\
+& & movb \%al, (\%rsi) \\ \hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.44\\
+A. 
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c| } 
+\hline
+i & c & j & d & Total & Alignment \\ \hline
+0 & 4 & 8 & 12 & 16 & 4 \\
+\hline
+\end{tabular}
+\end{center}
+B. 
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c| } 
+\hline
+i & c & d & j & Total & Alignment \\ \hline
+0 & 4 & 5 & 8 & 16 & 8 \\
+\hline
+\end{tabular}
+\end{center}
+C.
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+w & c & Total & Alignment \\ \hline
+0 & 6 & 10 & 2  \\
+\hline
+\end{tabular}
+\end{center}
+D.
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+w & c & Total & Alignment \\ \hline
+0 & 16 & 40 & 8  \\
+\hline
+\end{tabular}
+\end{center}
+E.
+\begin{center}
+\begin{tabular}{ |c|c|c|c| } 
+\hline
+a & t & Total & Alignment \\ \hline
+0 & 24 & 40 & 8  \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 3.45\\
+A. 
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c|c|c|c| } 
+\hline
+Field & a & b & c & d & e & f & g & h \\ \hline
+Size & 8 & 2 & 8 & 1 & 4 & 1 & 8 & 4 \\
+Offset & 0 & 8 & 16 & 24 & 28 & 32 & 40 & 48 \\ 
+\hline
+\end{tabular}
+\end{center}
+B. The structure is a total of 56 bytes long. \\
+C. 
+\begin{lstlisting}
+struct {
+    char *a;
+    double c;
+    long g;
+    float e;
+    int h;
+    short b;
+    char d;
+    char f;
+} rec;
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 3.46\\
+A. 
+\begin{center}
+\begin{tabular}{ |c|c  } 
+\hline
+00 00 00 00 00 40 00 76 & Return addree \\ \hline
+01 23 45 67 89 AB CD EF & Saved \%rbx \\ \hline
+ & \\ \hline
+ & buf = \%rsp \\ \hline
+\end{tabular}
+\end{center}
+B. 
+\begin{center}
+\begin{tabular}{ |c|c  } 
+\hline
+00 00 00 00 00 40 00 76 & Return addree \\ \hline
+01 23 45 67 89 AB CD EF & Saved \%rbx \\ \hline
+35 35 33 32 31 30 39 38& \\ \hline
+37 36 35 34 33 32 32 30 & buf = \%rsp \\ \hline
+\end{tabular}
+\end{center}
+C. The program is attempting to return to address 0x040034. The low-order 2 bytes were overwritten by the code for character '4' and the terminating null character. \\ 
+D. The saved value of register \%rbx was set to 0x3332313039383736. This value will be loaded into the register before get\_line returns. \\
+E. The call to malloc should have had strlen(buf) + 1 as its argument, and the code should also check that the returnd value is not equal to NULL.
+
+\paragraph{Solution to Problem } 3.47\\
+A. This corresponds to a range of around $2^13$ addresses. \\
+B. $2^6$ = 64 attempts. \\
+
+\paragraph{Solution to Problem } 3.48\\
+A. For the unprotected code, we can see that lines 4 and 5 compute the positions of v and buf to be at offsets 24 and 0 relative to \%rsp. In the protected code, the canary is stored at offset 40(line 4), while v and buf are at offsets 8 and 16(lines 7 and 8).\\
+B. In the protected code, local variable v is positioned closer to the top of the stack than buf, and so an overrun of buf will not corrupt the value of v.
+
+\paragraph{Solution to Problem } 3.49\\
+A. The leaq instruction of line 5 computes the value 8n + 22, which rounded down to the nearest multiple of 16 by the andq instruction of line 6. The resulting value will be 8n + 8 when n is odd and 8n + 16 when n is even, and this value is subtracted from s1 to give s2. \\
+B. The three instructions in this sequence round s2 up to the nearest multiplt of 8. \\
+
+
+
 
 \end{document}
 
