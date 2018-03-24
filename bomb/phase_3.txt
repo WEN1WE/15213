@@ -1,4 +1,4 @@
-*arg1 = (%rdi) = "3 25677"
+*arg1 = (%rdi) = "3 256"
 0x8(%rsp) : the first number
 0xc(%rsp) : the second number
 
