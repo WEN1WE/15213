@@ -10,3 +10,5 @@
 - 2018/3/19  Finished 3.7-3.12
 - 2018/3/20  Finished Bomb lab
 - 2018/3/21  Finished 5
+- 2018/3/24  Finished 6.1-6.3
+
