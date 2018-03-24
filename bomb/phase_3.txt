@@ -4,7 +4,7 @@
 
 
 0000000000400f43 <phase_3>:
-  400f43:	48 83 ec 18          	sub    $0x18,%rsp     # Allocate 28 bytes for stack frame, %rsp = 0x7fffffffdd50
+  400f43:	48 83 ec 18          	sub    $0x18,%rsp     # Allocate 0x18 bytes for stack frame, %rsp = 0x7fffffffdd50
   400f47:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx    # %rcx = 0x7fffffffdd5c
   400f4c:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx    # %rdx = 0x7fffffffdd58
   400f51:	be cf 25 40 00       	mov    $0x4025cf,%esi    # %rsi = 0x4025cf, (%rsi) = "%d %d"
