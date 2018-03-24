@@ -44,7 +44,7 @@
 
 /** Caculate how many numbers are in the input. */
   000000000040145c <read_six_numbers>:
-  40145c: 48 83 ec 18           sub    $0x18,%rsp   # Allocate 28 bytes for stack frame, %rsp = 0x7fffffffdd10 
+  40145c: 48 83 ec 18           sub    $0x18,%rsp   # Allocate 0x18 bytes for stack frame, %rsp = 0x7fffffffdd10 
   401460: 48 89 f2              mov    %rsi,%rdx    # %rdx = 0x7fffffffdd30
   401463: 48 8d 4e 04           lea    0x4(%rsi),%rcx # %rcx = 0x7fffffffdd34
   401467: 48 8d 46 14           lea    0x14(%rsi),%rax # %rax =  0x7fffffffdd44

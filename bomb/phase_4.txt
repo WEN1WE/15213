@@ -4,7 +4,7 @@
 
 
 000000000040100c <phase_4>:
-  40100c:	48 83 ec 18          	sub    $0x18,%rsp    # Allocate 18 bytes for stack frame
+  40100c:	48 83 ec 18          	sub    $0x18,%rsp    # Allocate 0x18 bytes for stack frame
   401010:	48 8d 4c 24 0c       	lea    0xc(%rsp),%rcx 
   401015:	48 8d 54 24 08       	lea    0x8(%rsp),%rdx
   40101a:	be cf 25 40 00       	mov    $0x4025cf,%esi    # *(%esi) = "%d %d", input two number
@@ -29,7 +29,7 @@
 
 
   0000000000400fce <func4>:
-  400fce: 48 83 ec 08           sub    $0x8,%rsp    # Allocate 8 bytes for stack frame
+  400fce: 48 83 ec 08           sub    $0x8,%rsp    # Allocate 0x8 bytes for stack frame
   400fd2: 89 d0                 mov    %edx,%eax    # %eax = 0xe    
   400fd4: 29 f0                 sub    %esi,%eax    # %eax = 0xe    
   400fd6: 89 c1                 mov    %eax,%ecx    # %ecx = 0xe    
