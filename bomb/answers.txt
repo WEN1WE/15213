@@ -1,3 +1,20 @@
+###Tips
+x/s x/a + $rsp  = ($rsp)
+x/s x/a + address
+
+print /x $rsp = $rsp
+
+untill *address
+
+break func
+
+ni (not step into function)
+si (step into function)
+
+next (get out of function)
+
+
+### Answers
 Border relations with Canada have never been better.
 1 2 4 8 16 32
 3 256
