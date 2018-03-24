@@ -1,0 +1,152 @@
+00000000004010f4 <phase_6>:
+  4010f4:	41 56                	push   %r14
+  4010f6:	41 55                	push   %r13
+  4010f8:	41 54                	push   %r12
+  4010fa:	55                   	push   %rbp
+  4010fb:	53                   	push   %rbx
+  4010fc:	48 83 ec 50          	sub    $0x50,%rsp    # Allocate 0x50 bytes for stack frame
+  401100:	49 89 e5             	mov    %rsp,%r13    # %r13 = %rsp
+  401103:	48 89 e6             	mov    %rsp,%rsi    # %rsi = %rsp
+  401106:	e8 51 03 00 00       	callq  40145c <read_six_numbers>    # %eax = 0x6
+  40110b:	49 89 e6             	mov    %rsp,%r14    # %r14 = %rsp
+  40110e:	41 bc 00 00 00 00    	mov    $0x0,%r12d    # %r12d = 0x0
+
+
+  # loop 1: the six numbers <= 6
+  401114:	4c 89 ed             	mov    %r13,%rbp     # %rbp = %r13
+  401117:	41 8b 45 00          	mov    0x0(%r13),%eax    # %eax = first number
+  40111b:	83 e8 01             	sub    $0x1,%eax
+  40111e:	83 f8 05             	cmp    $0x5,%eax    # if %eax <= 0x5, not boom!
+  401121:	76 05                	jbe    401128 <phase_6+0x34>
+  401123:	e8 12 03 00 00       	callq  40143a <explode_bomb>
+  401128:	41 83 c4 01          	add    $0x1,%r12d    # %r12d = 0x1
+  40112c:	41 83 fc 06          	cmp    $0x6,%r12d    # if %r12d == 0x6, goto 401153
+  401130:	74 21                	je     401153 <phase_6+0x5f>
+  401132:	44 89 e3             	mov    %r12d,%ebx    # %ebx = 0x1
+
+  # loop 2: the six numbers are diffrent
+  401135:	48 63 c3             	movslq %ebx,%rax    # %rax = 0x1
+  401138:	8b 04 84             	mov    (%rsp,%rax,4),%eax    #%eax = second number
+  40113b:	39 45 00             	cmp    %eax,0x0(%rbp)    # if first number != second number, not boom!
+  40113e:	75 05                	jne    401145 <phase_6+0x51>
+  401140:	e8 f5 02 00 00       	callq  40143a <explode_bomb>
+  401145:	83 c3 01             	add    $0x1,%ebx    # %ebx = 0x2
+  401148:	83 fb 05             	cmp    $0x5,%ebx    # if %ebx <= 0x5, goto 401135
+  40114b:	7e e8                	jle    401135 <phase_6+0x41>
+  # loop 2 end
+
+  40114d:	49 83 c5 04          	add    $0x4,%r13
+  401151:	eb c1                	jmp    401114 <phase_6+0x20>
+  # loop 1 end
+
+
+
+  401153:	48 8d 74 24 18       	lea    0x18(%rsp),%rsi     # (%rsi) = 0
+  401158:	4c 89 f0             	mov    %r14,%rax    # %rax = %r14 = %rsp
+  40115b:	b9 07 00 00 00       	mov    $0x7,%ecx    # %ecx = 0x7
+
+  # loop: the six numbers ====> 0x7 - six numbers
+  401160:	89 ca                	mov    %ecx,%edx    # %edx = %ecx
+  401162:	2b 10                	sub    (%rax),%edx    # %edx = 0x7 - fisrt number
+  401164:	89 10                	mov    %edx,(%rax)    # (%rax) = %edx, replace the first number
+  401166:	48 83 c0 04          	add    $0x4,%rax    # (%rax) = second number
+  40116a:	48 39 f0             	cmp    %rsi,%rax     # loop six times
+  40116d:	75 f1                	jne    401160 <phase_6+0x6c>
+  # loop end
+
+
+
+  # (gdb) x/a 0x6032d0
+  # 0x6032d0 <node1>: 0x10000014c
+  # (gdb) x/a 0x6032d8
+  # 0x6032d8 <node1+8>: 0x6032e0 <node2>
+
+  # (gdb) x/a 0x6032e0
+  # 0x6032e0 <node2>: 0x2000000a8
+  # (gdb) x/a 0x6032e8
+  # 0x6032e8 <node2+8>: 0x6032f0 <node3>
+
+  # (gdb) x/a 0x6032f0
+  # 0x6032f0 <node3>: 0x30000039c
+  # (gdb) x/a 0x6032f8
+  # 0x6032f8 <node3+8>: 0x603300 <node4>
+
+  # (gdb) x/a 0x603300
+  # 0x603300 <node4>: 0x4000002b3
+  # (gdb) x/a 0x603308
+  # 0x603308 <node4+8>: 0x603310 <node5>
+
+  # (gdb) x/a 0x603310
+  # 0x603310 <node5>: 0x5000001dd
+  # (gdb) x/a 0x603318
+  # 0x603318 <node5+8>: 0x603320 <node6>
+
+  # (gdb) x/a 0x603320
+  # 0x603320 <node6>: 0x6000001bb
+  # (gdb) x/a 0x603328
+  # 0x603328 <node6+8>: 0x0
+
+
+  40116f:	be 00 00 00 00       	mov    $0x0,%esi    # %esi = 0x0
+  401174:	eb 21                	jmp    401197 <phase_6+0xa3>
+
+  # loop  the six number is correspond to six node, for example 1 ===> node1
+  401176:	48 8b 52 08          	mov    0x8(%rdx),%rdx    # %rdx = 0x6032e0
+  40117a:	83 c0 01             	add    $0x1,%eax     # %eax = 0x2
+  40117d:	39 c8                	cmp    %ecx,%eax     # if %eax != first number, goto 401176
+  40117f:	75 f5                	jne    401176 <phase_6+0x82>
+
+  401181:	eb 05                	jmp    401188 <phase_6+0x94>
+  401183:	ba d0 32 60 00       	mov    $0x6032d0,%edx
+  401188:	48 89 54 74 20       	mov    %rdx,0x20(%rsp,%rsi,2)
+  40118d:	48 83 c6 04          	add    $0x4,%rsi
+  401191:	48 83 fe 18          	cmp    $0x18,%rsi
+  401195:	74 14                	je     4011ab <phase_6+0xb7>
+  401197:	8b 0c 34             	mov    (%rsp,%rsi,1),%ecx    # %ecx = first number
+  40119a:	83 f9 01             	cmp    $0x1,%ecx    # if fisrt number <= 0x1, goto 401183
+  40119d:	7e e4                	jle    401183 <phase_6+0x8f>
+  40119f:	b8 01 00 00 00       	mov    $0x1,%eax    # %eax = 0x1
+  4011a4:	ba d0 32 60 00       	mov    $0x6032d0,%edx     # (%edx) = 0x10000014c
+  4011a9:	eb cb                	jmp    401176 <phase_6+0x82>    
+
+
+  
+  4011ab:	48 8b 5c 24 20       	mov    0x20(%rsp),%rbx   
+  4011b0:	48 8d 44 24 28       	lea    0x28(%rsp),%rax    
+  4011b5:	48 8d 74 24 50       	lea    0x50(%rsp),%rsi   
+  4011ba:	48 89 d9             	mov    %rbx,%rcx    # %rcx = %rbx <node3>
+
+  # loop : make the node link togeter, for example <node3 + 8> : node4
+  4011bd:	48 8b 10             	mov    (%rax),%rdx    
+  4011c0:	48 89 51 08          	mov    %rdx,0x8(%rcx)  
+  4011c4:	48 83 c0 08          	add    $0x8,%rax     
+  4011c8:	48 39 f0             	cmp    %rsi,%rax
+  4011cb:	74 05                	je     4011d2 <phase_6+0xde>
+  4011cd:	48 89 d1             	mov    %rdx,%rcx   
+  4011d0:	eb eb                	jmp    4011bd <phase_6+0xc9>
+
+
+
+
+  4011d2:	48 c7 42 08 00 00 00 	movq   $0x0,0x8(%rdx)    # ($rdx+8) <node1+8> = 0x0
+  4011d9:	00 
+  4011da:	bd 05 00 00 00       	mov    $0x5,%ebp    # %ebp = 0x5
+
+  # loop: the six number shoule decrease
+  4011df:	48 8b 43 08          	mov    0x8(%rbx),%rax    
+  4011e3:	8b 00                	mov    (%rax),%eax    
+  4011e5:	39 03                	cmp    %eax,(%rbx)    # if (%rbx) >= %eax, not boom!, so (%rbx) == 0x39c, $rbx is node3
+  4011e7:	7d 05                	jge    4011ee <phase_6+0xfa>
+  4011e9:	e8 4c 02 00 00       	callq  40143a <explode_bomb>
+  4011ee:	48 8b 5b 08          	mov    0x8(%rbx),%rbx
+  4011f2:	83 ed 01             	sub    $0x1,%ebp
+  4011f5:	75 e8                	jne    4011df <phase_6+0xeb>
+
+
+  4011f7:	48 83 c4 50          	add    $0x50,%rsp
+  4011fb:	5b                   	pop    %rbx
+  4011fc:	5d                   	pop    %rbp
+  4011fd:	41 5c                	pop    %r12
+  4011ff:	41 5d                	pop    %r13
+  401201:	41 5e                	pop    %r14
+  401203:	c3                   	retq   
