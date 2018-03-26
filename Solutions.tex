@@ -1156,6 +1156,79 @@ B. In the protected code, local variable v is positioned closer to the top of th
 A. The leaq instruction of line 5 computes the value 8n + 22, which rounded down to the nearest multiple of 16 by the andq instruction of line 6. The resulting value will be 8n + 8 when n is odd and 8n + 16 when n is even, and this value is subtracted from s1 to give s2. \\
 B. The three instructions in this sequence round s2 up to the nearest multiplt of 8. \\
 
+\chapter{Processor Architecture}
+
+\chapter{Optimizing Program Performance}
+\paragraph{Solution to Problem } 5.1\\
+The effect will be to set the value at xp to zero.
+
+\paragraph{Solution to Problem } 5.2\\
+We find that for $n<=2$, version 1 is the fastest. Version 2 fastest for $3<= n <= 7$,
+version 3 if fastest for $n >= 8$
+
+\chapter{The Memory Hierarchy}
+\paragraph{Solution to Problem } 6.1\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c|c| } 
+\hline
+Organization & r & c & $b_r$ & $b_c$ & max($b_r$, $b_c$) \\
+\hline
+16x1 & 4 & 4 & 2 & 2 & 2 \\
+16x4 & 4 & 4 & 2 & 2 & 2 \\
+128x8 & 16 & 8 & 4 & 3 & 4 \\
+512x4 & 32 & 16 & 5 & 4 & 5 \\
+1023x4 & 32 & 32 & 5 & 5 & 5 \\
+\hline
+\end{tabular}
+\end{center}
+
+
+\paragraph{Solution to Problem } 6.2\\
+Disk capacity = 512 x 400 x 10000 x 2 x 2 = 8.182GB
+\paragraph{Solution to Problem } 6.3\\
+$T_{avg rotation} = 1/2 * T_{max rotation} = 2ms$ \\
+$T_{avg transfer} = 0.008ms$ \\
+$T_{access} = T_{avg seek} + T_{avg rotation} + T_{avg transfer} = 10ms$ 
+\paragraph{Solution to Problem } 6.4\\
+The file consists of 2000 512-byte logical blocks.For the disk, $T_{avg seek} = 5ms$, $T_{max rotation} = 6ms, and T_{avg rotation} = 3ms$ \\
+A. Best case:  $T_{avg seek} + T_{avg rotation} + 2 * T_{max rotation} = 20ms $ \\
+B. Random case: ($T_{avg seek} + T_{avg rotation}$) x 2000 = 16000ms
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\chapter{Linking}
+\chapter{Exceptional Control Flow}
+\chapter{Virtual Memory}
+\chapter{System Level I/O}
+\chapter{NetWork Programming}
+\paragraph{Solution to Problem } 11.1\\
+\begin{center}
+\begin{tabular}{ |c|c| } 
+\hline
+Hex address & Dotted-decimal address \\ \hline
+0x0 & 0.0.0.0 \\
+0xffffffff & 255.255.255.255 \\
+0x7f000001 & 127.0.0.1 \\
+0xcdbca079 & 205.188.160.121 \\
+0x400c950d & 64.12.149.13 \\
+0xcdbc9217 & 205.188.146.23 \\
+\hline
+\end{tabular}
+\end{center}
 
 
 
