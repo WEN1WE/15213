@@ -1166,6 +1166,89 @@ The effect will be to set the value at xp to zero.
 We find that for $n<=2$, version 1 is the fastest. Version 2 fastest for $3<= n <= 7$,
 version 3 if fastest for $n >= 8$
 
+\paragraph{Solution to Problem } 5.3\\
+\begin{center}
+\begin{tabular}{ |c|c|c|c|c| } 
+\hline
+Code & min & max & incr & square \\ \hline
+A & 1 & 91 & 90 & 90 \\
+B & 91 & 1 & 90 & 90 \\
+C & 1 & 1 & 90 & 90 \\
+\hline
+\end{tabular}
+\end{center}
+
+\paragraph{Solution to Problem } 5.4\\
+A. In the less optimized code, resister \%xmm0 is simply used as a temporary value, both set and used on each loop iteration. In the more optimized code, it is used more in the manner of variable acc in combine4, accumulating the product of vector elements. The difference with combine4, however, is that location dest is updated on each iteration by the second vmovsd instruction. \\
+\begin{lstlisting}
+/* Make sure dest updated on each iteration */
+void combine3w(vec_ptr v, data_t *dest) {
+	long i;
+	long length = vec_length(v);
+	data_t *data = get_vec_start(v);
+	data_t acc = IDENT;
+
+	/* Initialize in event length <= 0 */
+	*dest = acc;
+
+	for (i = 0; i < length; i++) {
+		acc = acc OP data[i];
+		*dest = acc;
+	}
+}
+\end{lstlisting}
+B. The two versions of combine3 will have identical functionality, even with memory aliasing. \\
+C. This transformation can be made without changing the program behavior, with the exception of the first iteration, the value read from dest at he beginning of each iteration will be the same value written to this register at the end of the previous iteration. Therefore, the combining instruction can simply use the value already in \%xmm0 at the beginning of the loop. \\
+
+\paragraph{Solution to Problem } 5.5\\
+A. The function performs 2n multiplications and n additions. \\
+B. We can see that the performance-limiting computation here is the repeated computation of the expression $xpwr = x * xpwr$. This requires a floating-point multiplication(5 clock cycles), and the computation for one iteration cannot begin until the one for the previous iteration has completed. the updating of result only requires a floating-point addition(3 clock cycles) between successive iterations. \\
+
+\paragraph{Solution to Problem } 5.6\\
+A. The function performs n multiplications and n additions. \\
+B. 8 cycles.
+
+\paragraph{Solution to Problem } 5.8\\
+A1: 5.00 \\
+A2, A5: 3.33 \\
+A3: 1.67
+
+\paragraph{Solution to Problem } 5.9\\
+\begin{lstlisting}
+while (i1 < n && i2 < n) {
+    long v1 = src1[i1];
+    long v2 = src2[i2];
+    long take1 = v1 < v2;
+    dest[id++] = take1 ? v1 : v2;
+    i1 += take1;
+    i2 += (1-take1);
+}
+\end{lstlisting}
+
+\paragraph{Solution to Problem } 5.10\\
+A. It will set each element a[i] to a[i+1], for 0-998 \\
+B. It will set each element a[i] to 0, for 1-999 \\
+C. In the second case, the load of one iteration depends on the result of the store from the previous iteration. Thus, there is a write/read dependency between successive iterations. \\
+D. It will give a CPE of 1.2, the same as for Example A, since there are no dependencies between stores and subsequent loads. 
+
+\paragraph{Solution to Problem } 5.11\\
+We can see that this function has a write/read dependency between successive iterations=the destination value p[i] on one iteration matches the source value p[i-1] on the next.
+
+\paragraph{Solution to Problem } 5.12\\
+\begin{lstlisting}
+void psum1a(float a[], float p[], long n) {
+    long i;
+    float last_val, val;
+    last_val = p[0] = a[0];
+    for (i = 1; i < n; i++) {
+        val = last_val + a[i];
+        p[i] = val;
+        last_val = val;
+    }
+
+}
+\end{lstlisting}
+
 \chapter{The Memory Hierarchy}
 \paragraph{Solution to Problem } 6.1\\
 \begin{center}
