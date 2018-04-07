@@ -14,5 +14,6 @@
 - 2018/3/25  Finished Attack Lab
 - 2018/3/26  Finished 6.4-6.7
 - 2018/4/6   Finished 7
+- 2018/4/8   Finished Cache Lab A
 
 
