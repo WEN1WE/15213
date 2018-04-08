@@ -7,7 +7,7 @@
 void printHelpInfo();
 void readInput();
 void readFile();
-void initCache();
+void createCache();
 void accessCache();
 
 unsigned s, E, b;
@@ -27,7 +27,7 @@ cache_line **cache;
 
 int main(int argc, char **argv) {
 	readInput(argc, argv);
-	initCache();
+	createCache();
 	readFile();
 	free(cache);
 	fclose(pFile);
@@ -76,19 +76,11 @@ void readInput(int argc, char **argv) {
 	}
 }
 
-void initCache() {
+void createCache() {
 	unsigned S = (1 << s);
 	cache = (cache_line **)malloc(sizeof(cache_line*) << s);
 	for (int i = 0; i < S; i++) {
 		cache[i] = (cache_line *)malloc(sizeof(cache_line) * E);
-	}
-
-	for (int i = 0; i < S; i++) {
-		for (int j = 0; j < E; j++) {
-			cache[i][j].LRU_counter = -1;
-			cache[i][j].Valid_bit = 0;
-			cache[i][j].Tag = -1;
-		}
 	}
 }
 
