@@ -10,7 +10,6 @@ void readFile();
 void initCache();
 void accessCache();
 
-
 unsigned s, E, b;
 unsigned hit_count = 0, miss_count = 0, eviction_count = 0;
 FILE *pFile;
@@ -97,38 +96,47 @@ void accessCache() {
 	int tag = address >> b >> s;
 	int setIndex = (address >> b) ^ (tag << s);
 	int evictionIndex = 0;
+	int sign = 0;
+	cache_line * set = cache[setIndex];
 
 
 	for (int i = 0; i < E; i++) {
-		if (cache[setIndex][i].LRU_counter > cache[setIndex][evictionIndex].LRU_counter) {
-			evictionIndex = i;
-		}
-
-		if (cache[setIndex][i].Valid_bit == 1) {
-			if (cache[setIndex][i].Tag == tag) {
-				cache[setIndex][i].LRU_counter = 0;
+		if (set[i].Valid_bit == 1) {
+			if (set[i].Tag == tag) {
+				set[i].LRU_counter = 0;
 				hit_count++;
-				return;
+				sign = 1;
+				continue;
 			}
 			else {
-				cache[setIndex][i].LRU_counter++;
+				set[i].LRU_counter++;
+				if (set[i].LRU_counter > set[evictionIndex].LRU_counter) {
+					evictionIndex = i;
+				}
 				continue;
 			}
 		}
 		else {
-			miss_count++;
-			cache[setIndex][i].Tag = tag;
-			cache[setIndex][i].LRU_counter = 0;
-			cache[setIndex][i].Valid_bit = 1;
-			return;
+			if (sign) {
+				return;
+			}
+			else {
+				miss_count++;
+				set[i].Tag = tag;
+				set[i].LRU_counter = 0;
+				set[i].Valid_bit = 1;
+				return;
+			}
 		}
 	}
 
-	eviction_count++;
-	miss_count++;
+	if (!sign) {
+		eviction_count++;
+		miss_count++;
 
-	cache[setIndex][evictionIndex].Tag = tag;
-	cache[setIndex][evictionIndex].LRU_counter = 0;
+		set[evictionIndex].Tag = tag;
+		set[evictionIndex].LRU_counter = 0;
+	}
 }
 
 void printHelpInfo() {
