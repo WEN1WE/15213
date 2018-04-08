@@ -29,6 +29,8 @@ int main(int argc, char **argv) {
 	readInput(argc, argv);
 	initCache();
 	readFile();
+	free(cache);
+	fclose(pFile);
 
 	printSummary(hit_count, miss_count, eviction_count);
 
@@ -49,7 +51,6 @@ void readFile() {
 		}
 	}
 }
-
 
 void readInput(int argc, char **argv) {
 	int opt;
@@ -74,7 +75,6 @@ void readInput(int argc, char **argv) {
 		}
 	}
 }
-
 
 void initCache() {
 	unsigned S = (1 << s);
