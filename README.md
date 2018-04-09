@@ -15,5 +15,7 @@
 - 2018/3/26  Finished 6.4-6.7
 - 2018/4/6   Finished 7
 - 2018/4/8   Finished Cache Lab A
+- 2018/4/9   Finished 8
+- 2018/4/10  Finished 10
 
 
